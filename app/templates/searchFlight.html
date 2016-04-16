@@ -6,12 +6,12 @@
         <input type="search" placeholder="Search">
       </label>
       <!-- TO CLEAR input field -->
-      <a class="button button-clear" href="#">Cancel</a>
+      <a class="button button-clear" on-tap="clear()">Clear</a>
     </div>
     <ul class="list">
-      <li class="item">
-        <a class="" href="#/tab/rewards">FR123</a>
-      </li>
+      <ion-item ng-repeat="item in items">
+        <a class="" href="#/tab/rewards">{{item.flightN}}</a>
+      </ion-item>
     </ul>
   </ion-content>
 </ion-view>

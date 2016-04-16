@@ -29,13 +29,16 @@
             console.log(stringObj);
 
             $rootScope.$apply(function() {
-              angular.copy(stringObj.name, tag);
+              if (stringObj.location == 'parking') {
+                $rootScope.filter.step1 = true;
+              }
+              angular.copy(stringObj.location, tag);
               // if necessary $state.go('some-route')
             });
 
             $ionicPopup.alert({
               title: 'Hello World temp',
-              template: stringObj.name
+              template: stringObj.name + ' '  + stringObj.location
             });
           },
           function () { // success callback
@@ -58,10 +61,18 @@
     })
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['$scope', '$ionicPopup', 'Modals', 'Model', '$ionicPlatform', 'nfcService'];
-  function HomeController($scope, $ionicPopup, Modals, Model, $ionicPlatform, nfcService) {
+  HomeController.$inject = ['$scope', '$rootScope', '$ionicPopup', 'Modals', 'Model', '$ionicPlatform', 'nfcService'];
+  function HomeController($scope, $rootScope, $ionicPopup, Modals, Model, $ionicPlatform, nfcService) {
 
-    $scope.users = [];
+    $scope.items = [{
+      flightN: 'FR123',
+      time: '12:12'
+    },{
+      flightN: 'FR124',
+      time: '13:12'
+    }];
+
+    $rootScope.filter = {};
 
     $scope.tag = nfcService.tag;
 
