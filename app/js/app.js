@@ -36,14 +36,43 @@ angular.module('App', ['ionic', 'ngCordova', 'ngAnimate', 'nfcFilters'])
     }
 
     $stateProvider
-      .state('home', {
+      // setup an abstract state for the tabs directive
+      .state('tab', {
+        url: '/tab',
+        abstract: true,
+        templateUrl: 'templates/tabs.html'
+      })
+      .state('tab.home', {
         url: '/home',
-        templateUrl: 'templates/home.html',
-        controller: 'HomeController'
+        views: {
+          'tab-home': {
+            templateUrl: 'templates/home.html',
+            controller: 'HomeController'
+          }
+        }
+      })
+      .state('tab.searchFlight', {
+        url: '/searchFlight',
+        views: {
+          'tab-searchFlight': {
+            templateUrl: 'templates/searchFlight.html',
+            controller: 'HomeController'
+          }
+        }
+      })
+      .state('tab.rewards', {
+        url: '/rewards',
+        views: {
+          'tab-rewards': {
+            templateUrl: 'templates/rewards.html',
+            controller: 'HomeController'
+          }
+        }
       });
-    $urlRouterProvider.otherwise(function ($injector) {
-      // $location (parameter)
-      var $state = $injector.get('$state');
-      $state.go('home');
-    });
+    // $urlRouterProvider.otherwise(function ($injector) {
+    //   // $location (parameter)
+    //   var $state = $injector.get('$state');
+    //   $state.go('home');
+    // });
+    $urlRouterProvider.otherwise('/tab/home');
   }]);

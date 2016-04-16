@@ -18,3 +18,9 @@ http://dublinairport-hackathon.com/
 
 ### Team:
   - ...
+
+### Thanks to:
+
+  - Logo icon by: https://thenounproject.com/term/bird/14826/
+  - DCU Alpha
+  - Dublin Airport

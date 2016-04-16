@@ -1,17 +1,23 @@
-<ion-view class="homeView" view-title="Home" hide-nav-bar="true">
-	<ion-content class="center-content">
-		<div class="row row-center">
-			<div class="col col-center">
-				<img src="img/ionic.png" alt="Ionic Framework" class="animated bounceInLeft" on-tap="showUsers()">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<button class="button button-block button-dark" on-tap="HelloWorld()">
-					Enter
-				</button>
-				<h3>{{tag}}</h3>
-			</div>
-		</div>
-	</ion-content>
+<ion-view class="homeView" title="Home" hide-nav-bar="true">
+  <ion-content class="center-content">
+    <div class="row">
+      <div class="col">
+        <h4>Welcome to Pigin, where you earn rewards by being on time</h4>
+      </div>
+    </div>
+    <div class="row row-center">
+      <div class="col col-center">
+        <img src="img/ionic.png" alt="Ionic Framework" class="animated bounceInLeft" on-tap="showUsers()">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <a class="button icon-right ion-chevron-right button-dark" href="#/tab/searchFlight">Search Your Flight</a>
+        <!-- <button class="button button-block button-dark" on-tap="HelloWorld()">
+          Enter
+        </button> -->
+        <!-- <h3>{{tag}}</h3> -->
+      </div>
+    </div>
+  </ion-content>
 </ion-view>

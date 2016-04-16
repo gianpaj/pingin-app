@@ -6,27 +6,27 @@
         right: 0 !important;
         width: 100% !important;
     }
-    
+
     .platform-ios.platform-cordova .modal-wrapper .modal {
-        
+
         .bar-header:not(.bar-subheader) > * {
             margin-top: 20px;
         }
-        
+
         .bar-header:not(.bar-subheader) {
             height: 64px;
         }
-        
+
         .has-header, .bar-subheader {
             top: 64px;
         }
     }
 }
-.center-content{	
+.center-content{
 	display: table !important;
 	width: 100% !important;
 	height: 100% !important;
-		
+
 	.scroll {
 		display: table-cell;
 		vertical-align: middle;
@@ -36,4 +36,14 @@
 
 .animate-item{
 	animation: fadeInLeft 1s;
+}
+
+.tabs-striped.tabs-background-green .tabs {
+    background-color: #bdd700;
+}
+
+.tabs-striped.tabs-color-dark .tab-item.tab-item-active,
+.tabs-striped.tabs-color-dark .tab-item.active,
+.tabs-striped.tabs-color-dark .tab-item.activated {
+    color: #000;
 }

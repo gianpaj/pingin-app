@@ -10,37 +10,42 @@
       var tag = {};
 
       $ionicPlatform.ready(function() {
-        // Read NDEF formatted NFC Tags
-        nfc.addNdefListener (function (nfcEvent) {
-          var tag = nfcEvent.tag,
-            ndefMessage = tag.ndefMessage;
 
-          // dump the raw json of the message
-          // note: real code will need to decode
-          // the payload from each record
-          console.log(JSON.stringify(ndefMessage));
+        if (!ionic.Platform.is('browser')) {
 
-          // assuming the first record in the message has
-          // a payload that can be converted to a string.
-          var stringObj = JSON.parse(nfc.bytesToString(ndefMessage[0].payload).substring(3));
-          console.log(stringObj);
+          // Read NDEF formatted NFC Tags
+          nfc.addNdefListener (function (nfcEvent) {
+            var tag = nfcEvent.tag,
+              ndefMessage = tag.ndefMessage;
 
-          $rootScope.$apply(function() {
-            angular.copy(stringObj.name, tag);
-            // if necessary $state.go('some-route')
+            // dump the raw json of the message
+            // note: real code will need to decode
+            // the payload from each record
+            console.log(JSON.stringify(ndefMessage));
+
+            // assuming the first record in the message has
+            // a payload that can be converted to a string.
+            var stringObj = JSON.parse(nfc.bytesToString(ndefMessage[0].payload).substring(3));
+            console.log(stringObj);
+
+            $rootScope.$apply(function() {
+              angular.copy(stringObj.name, tag);
+              // if necessary $state.go('some-route')
+            });
+
+            $ionicPopup.alert({
+              title: 'Hello World temp',
+              template: stringObj.name
+            });
+          },
+          function () { // success callback
+            console.log('Waiting for NDEF tag');
+          },
+          function (error) { // error callback
+            console.log('Error adding NDEF listener ' + JSON.stringify(error));
           });
 
-          $ionicPopup.alert({
-            title: 'Hello World temp',
-            template: stringObj.name
-          });
-        },
-        function () { // success callback
-          console.log('Waiting for NDEF tag');
-        },
-        function (error) { // error callback
-          console.log('Error adding NDEF listener ' + JSON.stringify(error));
-        });
+        }
       });
 
       return {
