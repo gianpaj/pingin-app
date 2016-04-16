@@ -1,3 +1,5 @@
+/* global process, __dirname */
+
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var bower = require('bower');
@@ -7,9 +9,9 @@ var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
 var uglify = require('gulp-uglify');
-var foreach = require('gulp-foreach');
+// var foreach = require('gulp-foreach');
 var htmlmin = require('gulp-htmlmin');
-var notify = require("gulp-notify");
+var notify = require('gulp-notify');
 var preen = require('preen');
 var sourcemaps = require('gulp-sourcemaps');
 var imagemin = require('gulp-imagemin');
@@ -18,154 +20,154 @@ var path = require('path');
 var del = require('del');
 
 var paths = {
-    sass: ['scss/**/*.scss'],
-    index: 'app/index.html',
-    scripts: ['app/js/app.js', 'app/js/**/*.js'],
-    styles: 'app/scss/*.scss',
-    templates: 'app/templates/**/*.*',
-    images: 'app/img/**/*.*',
-    lib: 'www/lib/**/*.*',
-    //Destination folders
-    destImages: './www/img/',
-    destTemplates: './www/templates/'
+  sass: ['scss/**/*.scss'],
+  index: 'app/index.html',
+  scripts: ['app/js/app.js', 'app/js/**/*.js'],
+  styles: 'app/scss/*.scss',
+  templates: 'app/templates/**/*.*',
+  images: 'app/img/**/*.*',
+  lib: 'www/lib/**/*.*',
+  //Destination folders
+  destImages: './www/img/',
+  destTemplates: './www/templates/'
 };
 
 gulp.task('default', ['sass', 'index', 'scripts', 'styles', 'templates', 'images', 'lib']);
 
 gulp.task('sass', function(done) {
-    gulp.src('./scss/ionic.app.scss')
-        .pipe(sass())
-        .on('error', sass.logError)
-        .pipe(gulp.dest('./www/css/'))
-        .pipe(minifyCss({
-            keepSpecialComments: 0
-        }))
-        .pipe(rename({ extname: '.min.css' }))
-        .pipe(gulp.dest('./www/css/'))
-        .on('end', done);
+  gulp.src('./scss/ionic.app.scss')
+    .pipe(sass())
+    .on('error', sass.logError)
+    .pipe(gulp.dest('./www/css/'))
+    .pipe(minifyCss({
+      keepSpecialComments: 0
+    }))
+    .pipe(rename({ extname: '.min.css' }))
+    .pipe(gulp.dest('./www/css/'))
+    .on('end', done);
 });
 
 gulp.task('index', function() {
-    return gulp.src(paths.index)
-        .pipe(htmlmin({ collapseWhitespace: true }))
-        .pipe(gulp.dest("./www/"))
-        .pipe(notify({ message: 'Index builded' }));
+  return gulp.src(paths.index)
+    .pipe(htmlmin({ collapseWhitespace: true }))
+    .pipe(gulp.dest('./www/'));
+    // .pipe(notify({ message: 'Index builded' }));
 });
 
 gulp.task('scripts', function() {
-    return gulp.src(paths.scripts)
-        .pipe(sourcemaps.init())
-        .pipe(concat("app.js"))
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest("./www/build/"))
-        .pipe(rename('app.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest("./www/build/"))
-        .pipe(notify({ message: 'Scripts builded' }));
+  return gulp.src(paths.scripts)
+    .pipe(sourcemaps.init())
+    .pipe(concat('app.js'))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./www/build/'))
+    .pipe(rename('app.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./www/build/'));
+    // .pipe(notify({ message: 'Scripts builded' }));
 });
 
 gulp.task('styles', function() {
-    return gulp.src(paths.styles)
-        .pipe(sourcemaps.init())
-        .pipe(sass())
-        .pipe(autoprefixer('last 2 version'))
-        .pipe(concat('style.css'))
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('./www/css/'))
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(minifyCss())
-        .pipe(gulp.dest('./www/css/'))
-        .pipe(notify({ message: 'Styles builded' }));
+  return gulp.src(paths.styles)
+    .pipe(sourcemaps.init())
+    .pipe(sass())
+    .pipe(autoprefixer('last 2 version'))
+    .pipe(concat('style.css'))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('./www/css/'))
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(minifyCss())
+    .pipe(gulp.dest('./www/css/'))
+    .pipe(notify({ message: 'Styles builded' }));
 });
 
 function MinifyTemplates(path, destPath) {
-    return gulp.src(path)
-        .pipe(htmlmin({ collapseWhitespace: true }))
-        .pipe(gulp.dest(destPath || paths.destTemplates));
+  return gulp.src(path)
+    .pipe(htmlmin({ collapseWhitespace: true }))
+    .pipe(gulp.dest(destPath || paths.destTemplates));
 }
 
 gulp.task('templates', ['clean-templates'], function() {
-    return MinifyTemplates(paths.templates).on('end', function() {
-        gulp.src('').pipe(notify({ message: 'Templates builded' }))
-    });
+  return MinifyTemplates(paths.templates).on('end', function() {
+    gulp.src('').pipe(notify({ message: 'Templates builded' }));
+  });
 });
 
 function MinifyImages(path, destPath) {
-    return gulp.src(path)
-        .pipe(imagemin({ optimizationLevel: 5 }))
-        .pipe(gulp.dest(destPath || paths.destImages));
+  return gulp.src(path)
+    .pipe(imagemin({ optimizationLevel: 5 }))
+    .pipe(gulp.dest(destPath || paths.destImages));
 }
 
 gulp.task('images', ['clean-images'], function() {
-    return MinifyImages(paths.images).on('end', function() {
-        gulp.src('').pipe(notify({ message: 'Images builded' }))
-    });
+  return MinifyImages(paths.images).on('end', function() {
+    gulp.src('').pipe(notify({ message: 'Images builded' }));
+  });
 });
 
 gulp.task('lib', function(done) {
-    //https://forum.ionicframework.com/t/how-to-manage-bower-overweight/17997/10?u=jdnichollsc
-    preen.preen({}, function() {
-        gulp.src('').pipe(notify({ message: 'Lib builded' }));
-        done();
-    });
+  //https://forum.ionicframework.com/t/how-to-manage-bower-overweight/17997/10?u=jdnichollsc
+  preen.preen({}, function() {
+    gulp.src('').pipe(notify({ message: 'Lib builded' }));
+    done();
+  });
 });
 
 gulp.task('clean-images', function() {
-    return del(paths.destImages);
+  return del(paths.destImages);
 });
 
 gulp.task('clean-templates', function() {
-    return del(paths.destTemplates);
+  return del(paths.destTemplates);
 });
 
 gulp.task('watch', function() {
-    gulp.watch(paths.sass, ['sass']);
-    gulp.watch(paths.index, ['index']);
-    gulp.watch(paths.scripts, ['scripts']);
-    gulp.watch(paths.styles, ['styles']);
-    gulp.watch(paths.templates, function(event){
-        var destPathFile = path.join('./www', path.relative(path.join(__dirname, './app'), event.path));
-        if(event.type === "deleted"){
-            del(destPathFile);
-        }else{
-            var pathFile = path.relative(__dirname, event.path);
-            var destPath = path.dirname(destPathFile);
-            MinifyTemplates(pathFile, destPath).on('end', function() {
-                gulp.src('').pipe(notify({ message: 'Template builded' }))
-            });
-        }
-    });
-    gulp.watch(paths.images, function(event){
-        var destPathFile = path.join('./www', path.relative(path.join(__dirname, './app'), event.path));
-        if(event.type === "deleted"){
-            del(destPathFile);
-        }else{
-            var pathFile = path.relative(__dirname, event.path);
-            var destPath = path.dirname(destPathFile);
-            MinifyImages(pathFile, destPath).on('end', function() {
-                gulp.src('').pipe(notify({ message: 'Image builded' }))
-            });
-        }
-    });
-    gulp.watch(paths.lib, ['lib']);
+  gulp.watch(paths.sass, ['sass']);
+  gulp.watch(paths.index, ['index']);
+  gulp.watch(paths.scripts, ['scripts']);
+  gulp.watch(paths.styles, ['styles']);
+  gulp.watch(paths.templates, function(event){
+    var destPathFile = path.join('./www', path.relative(path.join(__dirname, './app'), event.path));
+    if(event.type === 'deleted'){
+      del(destPathFile);
+    }else{
+      var pathFile = path.relative(__dirname, event.path);
+      var destPath = path.dirname(destPathFile);
+      MinifyTemplates(pathFile, destPath).on('end', function() {
+        gulp.src('').pipe(notify({ message: 'Template builded' }));
+      });
+    }
+  });
+  gulp.watch(paths.images, function(event){
+    var destPathFile = path.join('./www', path.relative(path.join(__dirname, './app'), event.path));
+    if(event.type === 'deleted'){
+      del(destPathFile);
+    }else{
+      var pathFile = path.relative(__dirname, event.path);
+      var destPath = path.dirname(destPathFile);
+      MinifyImages(pathFile, destPath).on('end', function() {
+        gulp.src('').pipe(notify({ message: 'Image builded' }));
+      });
+    }
+  });
+  gulp.watch(paths.lib, ['lib']);
 });
 
 gulp.task('install', ['git-check'], function() {
-    return bower.commands.install()
-        .on('log', function(data) {
-            gutil.log('bower', gutil.colors.cyan(data.id), data.message);
-        });
+  return bower.commands.install()
+    .on('log', function(data) {
+      gutil.log('bower', gutil.colors.cyan(data.id), data.message);
+    });
 });
 
 gulp.task('git-check', function(done) {
-    if (!sh.which('git')) {
-        console.log(
-            '  ' + gutil.colors.red('Git is not installed.'),
-            '\n  Git, the version control system, is required to download Ionic.',
-            '\n  Download git here:', gutil.colors.cyan('http://git-scm.com/downloads') + '.',
-            '\n  Once git is installed, run \'' + gutil.colors.cyan('gulp install') + '\' again.'
-        );
-        process.exit(1);
-    }
-    done();
+  if (!sh.which('git')) {
+    console.log(
+      '  ' + gutil.colors.red('Git is not installed.'),
+      '\n  Git, the version control system, is required to download Ionic.',
+      '\n  Download git here:', gutil.colors.cyan('http://git-scm.com/downloads') + '.',
+      '\n  Once git is installed, run \'' + gutil.colors.cyan('gulp install') + '\' again.'
+    );
+    process.exit(1);
+  }
+  done();
 });

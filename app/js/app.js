@@ -3,11 +3,9 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'App' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('App', ['ionic', 'ngCordova', 'ngAnimate'])
+angular.module('App', ['ionic', 'ngCordova', 'ngAnimate', 'nfcFilters'])
 
-.run(['$ionicPlatform', 
-			'$sqliteService',
-      function($ionicPlatform, $sqliteService) {
+.run(['$ionicPlatform', '$sqliteService',function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -20,35 +18,32 @@ angular.module('App', ['ionic', 'ngCordova', 'ngAnimate'])
       cordova.plugins.Keyboard.disableScroll(true);
     }
     if(window.StatusBar) {
-      StatusBar.styleDefault();
+      window.StatusBar.styleDefault();
     }
-		
+
     //Load the Pre-populated database, debug = true
-    $sqliteService.preloadDataBase(true);
+    // $sqliteService.preloadDataBase(true);
   });
 }])
-.config(['$stateProvider',
-         '$urlRouterProvider',
-         '$ionicConfigProvider',
-         '$compileProvider',
-         function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $compileProvider) {
+.config(['$stateProvider','$urlRouterProvider', '$ionicConfigProvider','$compileProvider',
+  function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $compileProvider) {
 
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|content|ms-appx|x-wmapp0):|data:image\/|img\//);
-    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|ghttps?|ms-appx|x-wmapp0):/);
-    
+    $compileProvider.aHrefSanitizationWhitelist (/^\s*(https?|ftp|mailto|file|ghttps?|ms-appx|x-wmapp0):/);
+
     if (ionic.Platform.isIOS()) {
-        $ionicConfigProvider.scrolling.jsScrolling(true);
+      $ionicConfigProvider.scrolling.jsScrolling(true);
     }
-    
+
     $stateProvider
-        .state('home', {
-            url: "/home",
-            templateUrl: "templates/home.html",
-            controller: 'HomeController'
-        });
-        
-    $urlRouterProvider.otherwise(function ($injector, $location) {
-        var $state = $injector.get("$state");
-        $state.go("home");
+      .state('home', {
+        url: '/home',
+        templateUrl: 'templates/home.html',
+        controller: 'HomeController'
+      });
+    $urlRouterProvider.otherwise(function ($injector) {
+      // $location (parameter)
+      var $state = $injector.get('$state');
+      $state.go('home');
     });
-}]);
+  }]);
