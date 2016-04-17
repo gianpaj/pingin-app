@@ -1,16 +1,29 @@
 <ion-view class="searchFlightView" view-title="Search Flight" hide-nav-bar="true">
   <ion-content class="content">
-    <div class="bar bar-header item-input-inset">
+    <div class="bar bar-header">
+      <button class="button button-dark">
+        Terminal 1
+      </button>
+      <button class="button button-dark">
+        Terminal 2
+      </button>
+    </div>
+    <div class="bar bar-subheader item-input-inset">
       <label class="item-input-wrapper">
         <i class="icon ion-ios-search placeholder-icon"></i>
-        <input type="search" placeholder="Search">
+        <input type="search" placeholder="Search by Airline, Flight or City">
       </label>
       <!-- TO CLEAR input field -->
       <a class="button button-clear" on-tap="clear()">Clear</a>
     </div>
-    <ul class="list">
+    <ul class="list" style="margin-top: 43px;">
       <ion-item ng-repeat="item in items">
-        <a class="" href="#/tab/rewards">{{item.flightN}}</a>
+        <a class="items item-thumbnail-left" ng-click="go(item.filed_departuretime)" >
+          <img ng-src="{{ item.airlineLogo }}"/>
+          <b>{{ item.filed_departuretime }}</b> {{ item.flightnumber }}
+          <p>{{ item.airline }}</p>
+          <p>{{ item.destinationName }}</p>
+        </a>
       </ion-item>
     </ul>
   </ion-content>

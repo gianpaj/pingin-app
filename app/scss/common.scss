@@ -47,3 +47,15 @@
 .tabs-striped.tabs-color-dark .tab-item.activated {
     color: #000;
 }
+
+.bar-footer img {
+    width: 20px
+}
+
+.bar.bar-red {
+    border-color: #BB7112;
+    background-color: #EFA03A;
+}
+.bar.bar-balanced.bar-footer {
+    background-image: linear-gradient(180deg, #28a54c, #bdd700 50%, transparent 50%);
+}

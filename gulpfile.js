@@ -76,8 +76,8 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('./www/css/'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(minifyCss())
-    .pipe(gulp.dest('./www/css/'))
-    .pipe(notify({ message: 'Styles builded' }));
+    .pipe(gulp.dest('./www/css/'));
+    // .pipe(notify({ message: 'Styles builded' }));
 });
 
 function MinifyTemplates(path, destPath) {
@@ -88,7 +88,7 @@ function MinifyTemplates(path, destPath) {
 
 gulp.task('templates', ['clean-templates'], function() {
   return MinifyTemplates(paths.templates).on('end', function() {
-    gulp.src('').pipe(notify({ message: 'Templates builded' }));
+    gulp.src('');//.pipe(notify({ message: 'Templates builded' }));
   });
 });
 
@@ -133,7 +133,7 @@ gulp.task('watch', function() {
       var pathFile = path.relative(__dirname, event.path);
       var destPath = path.dirname(destPathFile);
       MinifyTemplates(pathFile, destPath).on('end', function() {
-        gulp.src('').pipe(notify({ message: 'Template builded' }));
+        gulp.src('');//.pipe(notify({ message: 'Template builded' }));
       });
     }
   });
