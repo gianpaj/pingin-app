@@ -7,7 +7,7 @@ https://twitter.com/pinginapp
 
 # Screenshots
 
-<img src="screenshot1.png" width="48"><img src="screenshot2.png" width="48"><img src="screenshot3.png" width="48">
+<img src="screenshot1.png" width="260"> <img src="screenshot2.png" width="260"> <img src="screenshot3.png" width="260">
 
 # Our pitch
 [![Google presentation Slide pitch](presentation.png)](https://docs.google.com/presentation/d/1qXk8we2LtWmW-uAmjLQhUpIxXieGnvmLjvD8TKm1p5U/pub?start=false&loop=false&delayms=3000)
